@@ -1,0 +1,4 @@
+composer.lock
+app/config/database.php
+logs/app.log
+vendor/

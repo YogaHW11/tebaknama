@@ -1,0 +1,12 @@
+<?php
+
+return array(
+  'driver' => 'mysql',
+  'host' => 'localhost',
+  'database' => 'tebaknama',
+  'username' => 'root',
+  'password' => '',
+  'prefix' => '',
+  'charset' => 'utf8',
+  'collation' => 'utf8_general_ci',
+);
