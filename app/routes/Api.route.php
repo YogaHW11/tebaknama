@@ -2,6 +2,8 @@
 
 use LINE\LINEBot;
 use LINE\LINEBot\Constant\HTTPHeader;
+use LINE\LINEBot\Event\FollowEvent;
+use LINE\LINEBot\Event\UnfollowEvent;
 use LINE\LINEBot\Event\MessageEvent;
 use LINE\LINEBot\Event\MessageEvent\TextMessage;
 use LINE\LINEBot\Exception\InvalidEventRequestException;
@@ -38,20 +40,31 @@ $app->group('/api', function() use ($app, $settings) {
     }
 
     foreach ($events as $event) {
-      if (!($event instanceof MessageEvent)) {
-        $logger->info('Non message event has come');
+      $handler = null;
+
+      if ($event instanceof MessageEvent) {
+        if ($event instanceof TextMessage) {
+          require_once ROUTEDIR . 'handler/message.php';
+          $handler = new TextMessageHandler($event, $app);
+        } else {
+          $replytext = 'Duh, saya hanya mengerti pesan teks.';
+          $response = $bot->replyText($event->getReplyToken(), $replytext);
+          continue;
+        }
+      } elseif ($event instanceof FollowEvent) {
+        require_once ROUTEDIR . 'handler/follow.php';
+        $handler = new FollowEventHandler($event, $app);
+      } elseif ($event instanceof UnfollowEvent) {
+        require_once ROUTEDIR . 'handler/unfollow.php';
+        $handler = new UnfollowEventHandler($event, $app);
+      } else {
+        $logger->info('Unknown event type has come');
         continue;
       }
 
-      if (!($event instanceof TextMessage)) {
-        $logger->info('Non text message has come');
-        continue;
+      if ($handler) {
+        $handler->handle();
       }
-
-      $replyText = $event->getText();
-      $logger->info('Reply text: ' . $replyText);
-      $resp = $bot->replyText($event->getReplyToken(), $replyText);
-      $logger->info($resp->getHTTPStatus() . ': ' . $resp->getRawBody());
     }
 
     writeResponse($app->response, 200, 'Ok');
