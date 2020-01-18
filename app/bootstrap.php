@@ -27,8 +27,8 @@ $app->container->singleton('logger', function() {
   return $logger;
 });
 $app->container->singleton('bot', function() {
-  $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('+QxgpnM11GAtNRjKdritVsqm+gD99j69xRqHd8bdtaHQQ1lSqlxIe1gWuINJGoy3gjn4IYWXwajX+CvL0z/FztEVB6Y/VQcjBlV3gp1tDZp7Dr/kIEF2GCUIKA9+ndFZh6UOvRCjaOGDf1DgHaRodQdB04t89/1O/w1cDnyilFU=');
-  $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '4f84fa18b9152cb7340cb2e82bd1b1da']);
+  $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('CqD7jNRWQi95/cjIdYdwsuUEutAP1bEp/iBxQds+b8eORaegy95to3A9QXd7ZN0lt/hppPMepqKx6QlcEB1Ya03EEa3gPY5vfoqhm9HAHinyh8qOuC9oqPZDx2HUMeYSB2bvYJlXpoeuzFVlLm4bNQdB04t89/1O/w1cDnyilFU=');
+  $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '60fb22acd99652848aaab4baade8ca41']);
   return $bot;
 });
 
